@@ -1,0 +1,4 @@
+{
+	"desc": "Uruchamia wszystkie fixy",
+	"run_methods": ["downcase_filenames", "downcase_files_strings", "downcase_attributes"]
+}
