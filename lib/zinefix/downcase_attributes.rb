@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'nokogiri'
+require 'rchardet'
 require_relative 'refinements/nokogiri_to_s_options'
-
 class ZineFix
   using NokogiriToSOptions
 
@@ -19,7 +19,14 @@ class ZineFix
       end
       processed = false
       file_content = IO.binread(file)
-      doc = Nokogiri::HTML(file_content, nil, Encoding::BINARY.to_s)
+      begin
+        file_content = file_content.force_encoding(
+          (CharDet.detect(file_content)['encoding'] || Encoding::BINARY)
+        )
+      rescue
+        binding.pry
+      end
+      doc = Nokogiri::HTML(file_content)
       ATTRS.each do |attr|
         doc.xpath("//*[@#{attr}]").each do |element|
           val = element.attributes[attr].value
@@ -27,7 +34,7 @@ class ZineFix
 
           element.attributes[attr].value = val.downcase.tr(
             '\\', '/'
-          ).force_encoding((doc.encoding || Encoding::BINARY.to_s))
+          ).encode((doc.encoding))
         end
       end
       doc = doc.to_s.force_encoding(Encoding::BINARY)

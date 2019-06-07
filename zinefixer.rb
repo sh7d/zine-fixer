@@ -32,8 +32,8 @@ optparse = OptionParser.new do |opts|
     &list_profiles
   )
   opts.on(
-    '-p profile1,profile2,profile3', '--profiles profile1,profile2,profile3',
-    Array, 'Aktywuje wybrane profile'
+    '-p profile1,profile2,profile3','--profiles profile1,profile2,profile3',
+    Array, 'Aktywuje wybrane profile (Domyślne: stable)'
   ) do |profiles|
     profiles.each do |profile|
       profile_file = File.join(__dir__, 'profiles', profile + '.json')
@@ -57,6 +57,10 @@ optparse = OptionParser.new do |opts|
     '--downcase-files-strings',
     'Downcase-uje ciągi znaków ścieżek do plików'
   ) { params[:methods].add(:downcase_files_strings) }
+  opts.on(
+    '--js-top',
+    'Zmiana wywołań funkcji js_top'
+  ) { params[:methods].add(:js_top) }
   opts.separator "\nWspólne opcje:"
   opts.on(
     '-d PATH', '--dirname PATH', String,
@@ -77,6 +81,16 @@ rescue OptionParser::InvalidArgument => e
 rescue OptionParser::MissingArgument
   puts optparse.to_s
   exit
+end
+if params[:methods].empty?
+
+  stable_methods = JSON.parse(
+                      IO.binread(
+                        File.join(__dir__, 'profiles', 'stable.json')
+                      ),
+                      symbolize_names: true
+                    )[:run_methods].map(&:to_sym)
+  params[:methods].merge(stable_methods)
 end
 params.freeze
 if params[:dirname] && !params[:methods].empty?
