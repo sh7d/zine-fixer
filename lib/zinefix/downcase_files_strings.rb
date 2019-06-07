@@ -7,10 +7,9 @@ class ZineFix
   TEXTFILESEXT = %w[.htm .html .xhtml .xht .xml .js .css].freeze
   def downcase_files_strings
     delete_zin_prefix = ->(dir) { dir.delete_prefix(@zin_dir + '/') }
-    all_files = Dir.glob(File.join(@zin_dir, '**/**')).reverse
-    files_relative = all_files.reject(&File.method(:directory?))
-                              .map(&delete_zin_prefix)
-    all_files.each do |file|
+    files_relative = @all_files.reverse.select(&File.method(:file?))
+                               .map(&delete_zin_prefix)
+    @all_files.reverse_each do |file|
       unless File.file?(file) && DOCEXT.include?(File.extname(file))
         yield({ processed: false, file: file }) if block_given?
         next
@@ -45,7 +44,7 @@ class ZineFix
 
   def case_insensitive_downcase(fstr, array_of_str)
     array_of_str.each do |str|
-      str = str.dup.force_encoding('ASCII-8BIT')
+      str = str.dup.force_encoding(Encoding::BINARY)
       rgx = Regexp.new(
         Regexp.escape(str), Regexp::IGNORECASE
       )

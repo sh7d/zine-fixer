@@ -5,7 +5,7 @@ require 'pathname'
 
 class ZineFix
   def downcase_filenames
-    Dir.glob(File.join(@zin_dir, '**/**')).reverse_each do |file|
+    @all_files.reverse_each do |file|
       dfile = Pathname.new(file)
       dfile = File.join(dfile.parent.to_s, dfile.basename.to_s.downcase)
       if file != dfile
@@ -15,6 +15,7 @@ class ZineFix
         yield({ processed: false, file: file })
       end
     end
+    refresh_zinedir
     true
   end
 end
