@@ -110,7 +110,7 @@ if params[:dirname] && !params[:methods].empty?
         curr_file = status[:file].downcase
         # all_files << curr_file
         if status[:processed]
-          #processed_files << curr_file
+          processed_files << curr_file
           puts "[*] Przetworzono plik #{status[:file]}" if params[:verbose] >= 1
         elsif params[:verbose] >= 2
           puts "[*] Pominięto plik #{status[:file]}"
