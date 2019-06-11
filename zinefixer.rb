@@ -4,7 +4,7 @@ require 'bundler/setup'
 require 'optparse'
 require 'json'
 require 'set'
-require 'pry'
+require 'pry-byebug'
 require_relative 'lib/zinefix'
 
 PROFILES_GLOB = File.join(__dir__, 'profiles/*.json')
@@ -100,16 +100,17 @@ if params[:dirname] && !params[:methods].empty?
             'nie znajduje się folder'
     end
     fixer = ZineFix.new(params[:dirname])
-    all_files = Set.new.merge(Dir.glob(File.join(params[:dirname], '**/**')))
+    # all_files = Set.new.merge(Dir.glob(File.join(params[:dirname], '**/**')))
+    #binding.pry
     processed_files = Set.new
     puts "[*] Przetwarzany katalog: #{params[:dirname]}" if params[:verbose] >= 2
     params[:methods].each do |pmethod|
       puts "[*] Przetwarzanie metodą: #{pmethod}..." if params[:verbose] >= 1
       fixer.method(pmethod).call do |status|
         curr_file = status[:file].downcase
-        all_files << curr_file
+        # all_files << curr_file
         if status[:processed]
-          processed_files << curr_file
+          #processed_files << curr_file
           puts "[*] Przetworzono plik #{status[:file]}" if params[:verbose] >= 1
         elsif params[:verbose] >= 2
           puts "[*] Pominięto plik #{status[:file]}"
@@ -117,7 +118,7 @@ if params[:dirname] && !params[:methods].empty?
       end
       printf("\n") if params[:verbose] >= 1
     end
-    puts "Przetworzono:\n  #{processed_files.size}/#{all_files.size} " +
+    puts "Przetworzono:\n  #{processed_files.size}/#{fixer.all_files.size} " +
          File.expand_path(params[:dirname])
   rescue RuntimeError => e
     puts e
