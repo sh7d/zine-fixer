@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require 'bundler/setup'
 require 'optparse'
 require 'json'
@@ -115,9 +114,9 @@ if params[:dirname] && !params[:methods].empty?
         # all_files << curr_file
         if status[:processed]
           processed_files << curr_file
-          puts "[*] Przetworzono plik #{status[:file]}" if params[:verbose] >= 1
+          puts "[*] Przetworzono plik ".dup.b + status[:file] if params[:verbose] >= 1
         elsif params[:verbose] >= 2
-          puts "[*] Pominięto plik #{status[:file]}"
+          puts "[*] Pominięto plik ".dup.b + status[:file]
         end
       end
       printf("\n") if params[:verbose] >= 1

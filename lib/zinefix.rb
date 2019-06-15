@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'pathname'
+
 Dir.glob(File.join(__dir__, 'zinefix/*.rb')) { |file| require_relative file }
 
 class ZineFix
@@ -17,7 +18,7 @@ class ZineFix
   end
 
   def refresh_zinedir
-    @all_files = Dir.glob(File.join(@zin_dir, '**/**'))
+    @all_files = Dir.glob(File.join(@zin_dir, '**/**')).map(&:b)
   end
 end
 
