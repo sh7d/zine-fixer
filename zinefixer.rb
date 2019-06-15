@@ -61,6 +61,10 @@ optparse = OptionParser.new do |opts|
     '--js-top',
     'Zmiana wywołań funkcji js_top'
   ) { params[:methods].add(:js_top) }
+  opts.on(
+    '--js-fix-flash',
+    'Fix flash embedowany przez document.write (niepotrzebne)'
+  ) { params[:method].add(:js_fix_flash) }
   opts.separator "\nWspólne opcje:"
   opts.on(
     '-d PATH', '--dirname PATH', String,

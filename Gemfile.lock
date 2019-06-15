@@ -15,6 +15,7 @@ GEM
       byebug (~> 11.0)
       pry (~> 0.10)
     rchardet (1.8.0)
+    rkelly-remix (0.0.7)
 
 PLATFORMS
   ruby
@@ -25,6 +26,7 @@ DEPENDENCIES
   pry (~> 0.12.2)
   pry-byebug (~> 3.7)
   rchardet (~> 1.8)
+  rkelly-remix (~> 0.0.7)
 
 BUNDLED WITH
    2.0.1
