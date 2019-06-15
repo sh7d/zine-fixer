@@ -3,7 +3,6 @@ require 'bundler/setup'
 require 'optparse'
 require 'json'
 require 'set'
-require 'pry-byebug'
 require_relative 'lib/zinefix'
 
 PROFILES_GLOB = File.join(__dir__, 'profiles/*.json')
@@ -103,8 +102,6 @@ if params[:dirname] && !params[:methods].empty?
             'nie znajduje się folder'
     end
     fixer = ZineFix.new(params[:dirname])
-    # all_files = Set.new.merge(Dir.glob(File.join(params[:dirname], '**/**')))
-    #binding.pry
     processed_files = Set.new
     puts "[*] Przetwarzany katalog: #{params[:dirname]}" if params[:verbose] >= 2
     params[:methods].each do |pmethod|
