@@ -29,7 +29,7 @@ Wspólne opcje:
 Pozostałe:
     -h, --help                       Wyświetla tą pomoc
 ```
-`ex: ruby zinefixer.rb -v 3 -d '/home/tomek/Workspace/am/Action Mag 004'`
+`ex: ruby zinefixer.rb -v 3 -d '/home/tomek/Workspace/am/Action Mag 004'`  
 *Ruby version:* ruby 2.6.3
 ## Status
 Good enough.  
@@ -44,3 +44,7 @@ Dzisiaj dockerem trzeba dostarczac wszystko. Smutne
 ### Kodowanie znaków
 1. rchardet nie daje sobie rady z detekcją wschodnich kodowań
 2. odnośniki do plików przetworzone mogą mieć inne bajty - ich nazwa nie będzie odpowiadała celowi
+3. skrypty jsowe po zmianie kodowania czasem nie chcą działać
+
+Dlatego też na ten moment metody zmieniające kodowanie nie są oznaczone jako stabilne
+

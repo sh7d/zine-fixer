@@ -111,9 +111,9 @@ if params[:dirname] && !params[:methods].empty?
         # all_files << curr_file
         if status[:processed]
           processed_files << curr_file
-          puts "[*] Przetworzono plik ".dup.b + status[:file] if params[:verbose] >= 1
+          puts "[*] Przetworzono plik ".b + status[:file] if params[:verbose] >= 1
         elsif params[:verbose] >= 2
-          puts "[*] Pominięto plik ".dup.b + status[:file]
+          puts "[*] Pominięto plik ".b + status[:file]
         end
       end
       printf("\n") if params[:verbose] >= 1
