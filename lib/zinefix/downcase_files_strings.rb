@@ -2,7 +2,6 @@
 
 require 'pathname'
 require 'set'
-
 class ZineFix
   TEXTFILESEXT = %w[.htm .html .xhtml .xht .xml .js .css].freeze
   def downcase_files_strings
@@ -44,9 +43,10 @@ class ZineFix
 
   def case_insensitive_downcase(fstr, array_of_str)
     array_of_str.each do |str|
-      str = str.dup.force_encoding(Encoding::BINARY)
+      str = str.b
+      pstr = str.split('/').map(&Regexp.method(:escape)).join('(/+|\\\\+)')
       rgx = Regexp.new(
-        Regexp.escape(str), Regexp::IGNORECASE
+        pstr, Regexp::IGNORECASE
       )
       fstr = fstr.gsub(rgx, str.downcase)
     end
