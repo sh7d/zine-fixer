@@ -13,7 +13,7 @@ class ZineFix
             'nie znajduje się folder'
     end
 
-    @zin_dir = Pathname.new(zin_dir).cleanpath.to_s
+    @zin_dir = Pathname.new(zin_dir).cleanpath.to_s.b
     refresh_zinedir
   end
 
