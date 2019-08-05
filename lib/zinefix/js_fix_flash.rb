@@ -2,6 +2,7 @@
 require 'rkelly'
 require 'nokogiri'
 require 'pry-byebug'
+
 class ZineFix
   module FileExt
     JS = ['.js'].freeze
@@ -14,13 +15,13 @@ class ZineFix
       end
       processed = false
       file_content = IO.binread(file)
-      ast = RKelly::Parser.new.parse(file_content)
-      if ast.nil?
-        yield({ processed: false, file: file }) if block_given?
-        next
+      begin
+        ast = RKelly::Parser.new.parse(file_content)
+      rescue StandardError => e
+          yield({ processed: false, file: file }) if block_given?
+          next
       end
-      #next unless file.end_with?("menu.js")
-      ast.each do |node|
+      ast&.each do |node|
         swfnode = false
         next unless node.instance_of?(RKelly::Nodes::FunctionCallNode)
 
@@ -36,7 +37,7 @@ class ZineFix
           swfnode.value = "'" + fix + "'"
         end
       end
-      if ast.to_ecma != file_content
+      if ast && ast.to_ecma != file_content
         IO.binwrite(file, ast.to_ecma.force_encoding(Encoding::BINARY))
         processed = true
       end
