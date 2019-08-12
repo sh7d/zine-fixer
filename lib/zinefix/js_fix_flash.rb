@@ -17,9 +17,9 @@ class ZineFix
       file_content = IO.binread(file)
       begin
         ast = RKelly::Parser.new.parse(file_content)
-      rescue StandardError => e
-          yield({ processed: false, file: file }) if block_given?
-          next
+      rescue StandardError
+        yield({ processed: false, file: file }) if block_given?
+        next
       end
       ast&.each do |node|
         swfnode = false
