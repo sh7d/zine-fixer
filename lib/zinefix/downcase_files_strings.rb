@@ -53,6 +53,6 @@ class ZineFix
       )
       fstr = fstr.gsub(rgx, str.downcase)
     end
-    fstr.freeze
+    fstr
   end
 end
