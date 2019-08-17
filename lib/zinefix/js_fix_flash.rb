@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rkelly'
 require 'nokogiri'
 require 'pry-byebug'
@@ -34,7 +35,7 @@ class ZineFix
 
         if swfnode && finger_swf(swfnode.value.to_s)
           fix = fix_swf_node(swfnode.value.to_s)
-          swfnode.value = "'" + fix + "'"
+          swfnode.value = "'" + fix + "'" if fix
         end
       end
       if ast && ast.to_ecma != file_content
@@ -54,7 +55,7 @@ class ZineFix
   def fix_swf_node(node_string)
     htmlnode = Nokogiri::HTML.fragment(node_string)
     swfobj = htmlnode.children.find { |nd| nd.name == 'object' }
-    return false unless swfobj[:classid]
+    return false unless swfobj&.dig(:classid)
 
     embed_hash = {
       id: swfobj[:id],
