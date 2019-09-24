@@ -23,9 +23,9 @@ class ZineFix
         next
       end
       ast&.each do |node|
-        swfnode = false
         next unless node.instance_of?(RKelly::Nodes::FunctionCallNode)
 
+        swfnode = false
         curr_func = node.value.to_a.last(2).map do |elem|
           elem.respond_to?(:accessor) ? elem.accessor.to_s : elem.value.to_s
         end
@@ -55,7 +55,7 @@ class ZineFix
   def fix_swf_node(node_string)
     htmlnode = Nokogiri::HTML.fragment(node_string)
     swfobj = htmlnode.children.find { |nd| nd.name == 'object' }
-    return false unless swfobj&.dig(:classid)
+    return false unless swfobj&.send(:[], :classid)
 
     embed_hash = {
       id: swfobj[:id],
