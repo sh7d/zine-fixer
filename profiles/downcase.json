@@ -1,4 +1,4 @@
 {
 	"desc": "Naprawia problem przeglądania zina na case sensitive filesystemach",
-	"run_methods": ["downcase_filenames", "downcase_files_strings", "downcase_attributes"]
+	"run_methods": ["downcase_filenames", "downcase_fix_files_strings", "downcase_attributes"]
 }

@@ -17,3 +17,5 @@ gem "rchardet", "~> 1.8"
 gem "pry-byebug", "~> 3.9", :group => :dev
 
 gem "rkelly-remix", "~> 0.0.7"
+
+gem "addressable", "~> 2.7"

@@ -2,10 +2,11 @@
 
 require 'pathname'
 require 'set'
+require 'addressable/uri'
 
 class ZineFix
   TEXTFILESEXT = %w[.htm .html .xhtml .xht .xml .js .css].freeze
-  def downcase_files_strings
+  def downcase_fix_files_strings
     delete_zin_prefix = ->(dir) { dir.delete_prefix(@zin_dir + '/') }
     files_relative = @all_files.reverse.select(&File.method(:file?))
                                .map(&delete_zin_prefix)
@@ -30,7 +31,7 @@ class ZineFix
       end
       strings.merge(files_relative)
       file_str = IO.binread(file)
-      file_str_r = case_insensitive_downcase(file_str, strings)
+      file_str_r = case_insensitive_fix_downcase(file_str, strings)
       processed = false
       unless file_str == file_str_r
         IO.binwrite(file, file_str_r)
@@ -42,16 +43,20 @@ class ZineFix
 
   private
 
-  def case_insensitive_downcase(fstr, array_of_str)
+  def case_insensitive_fix_downcase(fstr, array_of_str)
     array_of_str.each do |str|
       str = str.b
-      pstr = str.split('/').map do |str|
-        Regexp.escape(str).gsub(/(\\ )+/, '(?:\\ +|(%20)+)')
+      pstr = str.split('/').map do |lstr|
+        Regexp.escape(lstr).gsub(/(\\ )+/, '(?:\\ +|(%20)+)')
       end.join('(/+|\\\\+)')
       rgx = Regexp.new(
         pstr, Regexp::IGNORECASE
       )
-      fstr = fstr.gsub(rgx, str.downcase)
+      fstr = fstr.gsub(
+        rgx, Addressable::URI.encode_component(
+          str.downcase, Addressable::URI::CharacterClasses::PATH
+        )
+      )
     end
     fstr
   end

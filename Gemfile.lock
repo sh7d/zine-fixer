@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     byebug (11.1.1)
     coderay (1.1.2)
     crass (1.0.6)
@@ -14,6 +16,7 @@ GEM
     pry-byebug (3.9.0)
       byebug (~> 11.0)
       pry (~> 0.13.0)
+    public_suffix (4.0.3)
     rchardet (1.8.0)
     rkelly-remix (0.0.7)
 
@@ -21,6 +24,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  addressable (~> 2.7)
   crass (~> 1.0)
   nokogiri (~> 1.10)
   pry (~> 0.13)

@@ -1,4 +1,4 @@
 {
 	"desc": "Uruchamia stabilne fixy",
-	"run_methods": ["downcase_filenames", "downcase_files_strings", "js_top", "js_fix_flash"]
+	"run_methods": ["downcase_filenames", "downcase_fix_files_strings", "js_top", "js_fix_flash"]
 }
